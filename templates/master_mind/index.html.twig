@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="text-center">
+    <audio id="music-player" src="Second_Try.mp3" autoplay="true" loop="true"></audio>
+    <!-- <button id="music-button" type="button">stop music</button> -->
+    <!--
+ {% for case in game %}
+   -- {{ case }} --
+ {% endfor %}
+ -->
+{% for resultat in app.flashes('resultat') %}
+    <div class="alert alert-info">
+    {{ resultat }}
+    </div>
+{% endfor %}
+{% set master_mind = app.session.get('master_mind') %}
+{% set played = master_mind.played|length %}
+{% set progress = (played / 12 * 100) | round %}
+{% set GameStatusEnum = enum('\\App\\Enum\\GameStatusEnum') %}
+
+<div class="progress" style="height: 20px;">
+    <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ played }} / 12</div>
+</div>
+<div class="card container">
+    <div class="card-title">
+        Vos coups : <br/>
+        <form class="row gy-2 gx-3 align-items-center">
+            <fieldset disabled>
+                {%  for index,play in master_mind.getPlayed() %}
+                    <span class="fw-bold">{{ index + 1 }}: </span>
+                    {% for case in play['colors'] %}
+                           <!-- <span class="badge bg-pion-{{ case }}">{{ case }}</span> -->
+                            {% set image = 'build/images/jeton-' ~ case ~ '.jpg' %}
+                            <img src="{{ asset(image) }}" width="65px" height="65px" />
+                    {% endfor %}
+                    <span class="badge text-bg-success">{{ play['wellPlaced'] }}</span>
+                    <span class="badge text-bg-dark">{{ play['noneWellPlaced'] }}</span>
+                    <br/>
+                {%  endfor %}
+            </fieldset>
+        </form>
+    </div>
+    <div class="card-body text-center">
+
+{%  if master_mind.gameStatus != GameStatusEnum.HAS_LOOSED and master_mind.gameStatus != GameStatusEnum.HAS_WON    %}
+    <form id='form-play' class="row gy-2 gx-3 text-center" method="post" action="{{ path('app_play') }}">
+        <div>
+         {% for position in 1..4 %}
+            <div class="btn-group" role="group">
+                <button id="btnPosition{{position}}" type="button" class="btn btn-primary dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
+                    Position {{position}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnPosition{{position}}">
+                    {% for i in 1..6 %}
+                    <li><a data-position="{{position}}" data-select="color_{{position}}" data-value="{{i}}" class="dropdown-item bind-to-select" href="#"><img src="{{ asset('build/images/jeton-' ~ i ~ '.jpg') }}" width="65px" height="65px" /></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+         {% endfor %}   
+         
+        </div>
+        
+     <div class="col-auto text-center">
+         <select class="form-select select-pion" name="color[]" id="color_1">
+             <option value="" selected>Choisir entre 1 et 6</option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+             <option value="4">4</option>
+             <option value="5">5</option>
+             <option value="6">6</option>
+         </select>
+     </div>
+     <div class="col-auto">
+         <select class="form-select select-pion" name="color[]" id="color_2">
+             <option value="" selected>Choisir entre 1 et 6</option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+             <option value="4">4</option>
+             <option value="5">5</option>
+             <option value="6">6</option>
+         </select>
+     </div>
+     <div class="col-auto">
+         <select class="form-select select-pion" name="color[]" id="color_3">
+             <option value="" selected>Choisir entre 1 et 6</option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+             <option value="4">4</option>
+             <option value="5">5</option>
+             <option value="6">6</option>
+         </select>
+     </div>
+     <div class="col-auto">
+         <select class="form-select select-pion" name="color[]" id="color_4">
+             <option value="" selected>Choisir entre 1 et 6</option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+             <option value="4">4</option>
+             <option value="5">5</option>
+             <option value="6">6</option>
+         </select>
+     </div>
+     <div class="card container">
+        <div class="card-title">
+        {% for position in 1..4 %}
+            <img class="played" id="img-played-{{position}}" width="65px" height="65px" />
+        {% endfor %}
+        </div>
+    </div>   
+     <div>
+        <div class="col-auto">
+            <button id="button-play" type="submit" value="play" class="btn btn-primary">Jouer</button>
+        </div>
+     </div>
+     
+ </form>
+ 
+{%  else %}
+    <span class="badge bg-info">{{ master_mind.gameStatus.value }}!</span> il fallait jouer :
+    <form class="row gy-2 gx-3 align-items-center">
+        <fieldset disabled>
+            {%  for case in master_mind.game %}
+                <img src="{{ asset('build/images/jeton-' ~ case ~ '.jpg')}}" width="65px" height="65px" />
+            {%  endfor %}
+        </fieldset>
+    </form>
+{% endif %}
+    </div>
+</div>
+</div>
+
+{%  endblock %}
+

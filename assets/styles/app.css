@@ -1,0 +1,45 @@
+.bg-pion-1 {
+    background-color: #0d5aa7;
+    background-image: url('../images/jeton-1.jpg');
+    padding: 2em 2em 2em 2em;
+    margin: 2em 2em 2em 2em;
+}
+
+.bg-pion-2 {
+    background-color: #00bb00;
+    background-image: url('../images/jeton-2.jpg');
+    padding: 2em 2em 2em 2em;
+    margin: 2em 2em 2em 2em;
+}
+
+.bg-pion-3 {
+    background-color: #aa1111;
+    background-image: url('../images/jeton-3.jpg');
+    padding: 2em 2em 2em 2em;
+    margin: 2em 2em 2em 2em;
+}
+
+.bg-pion-4 {
+    background-color: #f1660d;
+    background-image: url('../images/jeton-4.jpg');
+    padding: 2em 2em 2em 2em;
+    margin: 2em 2em 2em 2em;
+}
+
+.bg-pion-5 {
+    background-color: #1b1b1b;
+    background-image: url('../images/jeton-5.jpg');
+    padding: 2em 2em 2em 2em;
+    margin: 2em 2em 2em 2em;
+}
+
+.bg-pion-6 {
+    background-color: #707070;
+    background-image: url('../images/jeton-6.jpg');
+    padding: 2em 2em 2em 2em;
+    margin: 2em 2em 2em 2em;
+}
+
+.select-pion{
+    display: none;
+}
